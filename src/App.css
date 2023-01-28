@@ -10,4 +10,5 @@ html body {
   height: 100%;
   width: 100%;
   background: var(--chakra-colors-dark);
+  color: var(--chakra-colors-accent);
 }

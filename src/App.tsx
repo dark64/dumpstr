@@ -1,5 +1,11 @@
-import { Container, Heading, VStack, Flex, Text } from "@chakra-ui/react";
+import { Container, Flex, Text, VStack } from "@chakra-ui/react";
+import { MdOutlineSettings } from "react-icons/md";
 import "./App.css";
+import Feed from "./components/Feed";
+import Logo from "./components/Logo";
+import Navigation from "./components/Navigation";
+import Utilities from "./components/Utilities";
+
 
 function App() {
   return (
@@ -11,22 +17,21 @@ function App() {
           w="full"
           mb="2"
         >
-          <Heading>dumpstr</Heading>
-          <Flex direction="column" alignItems="end">
-            <Text fontWeight="bold">John</Text>
-            <Text opacity="50%">npub123...</Text>
+          <Logo />
+          <Flex alignItems="center" gap="2">
+            <Flex direction="column" alignItems="end" lineHeight="1" gap="1">
+              <Text fontWeight="bold">John</Text>
+              <Text opacity="50%" fontSize="sm">
+                npub123...
+              </Text>
+            </Flex>
+            <MdOutlineSettings size="32px" cursor="pointer" />
           </Flex>
         </Flex>
-        <Flex gap="32px" direction="row" h="full" w="full">
-          <Flex h="full" bg="red" minW={"200px"}>
-            a
-          </Flex>
-          <Flex h="full" bg="green" grow={1}>
-            b
-          </Flex>
-          <Flex h="full" bg="blue" minW={"200px"}>
-            c
-          </Flex>
+        <Flex gap="32px" h="full" w="full" minH="0">
+          <Navigation />
+          <Feed />
+          <Utilities />
         </Flex>
       </VStack>
     </Container>
