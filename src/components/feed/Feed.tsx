@@ -1,6 +1,6 @@
 import { Flex, Heading, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import FeedMessages from "./FeedMessages";
+import MessageList from "./MessageList";
 
 function Feed() {
   const [currentFilter, setCurrentFilter] = useState("global");
@@ -30,7 +30,7 @@ function Feed() {
           })}
         </Flex>
       </Flex>
-      <FeedMessages filter={currentFilter} />
+      <MessageList filter={currentFilter} />
     </Flex>
   );
 }

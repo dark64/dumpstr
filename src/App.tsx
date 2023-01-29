@@ -1,11 +1,10 @@
 import { Container, Flex, Text, VStack } from "@chakra-ui/react";
 import { MdOutlineSettings } from "react-icons/md";
 import "./App.css";
-import Feed from "./components/Feed";
+import Feed from "./components/feed/Feed";
 import Logo from "./components/Logo";
 import Navigation from "./components/Navigation";
 import Utilities from "./components/Utilities";
-
 
 function App() {
   return (
