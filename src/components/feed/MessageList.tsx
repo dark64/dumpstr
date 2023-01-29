@@ -23,16 +23,7 @@ export const MessageList = (props: FeedMessagesProps) => {
     return <Loader displayText="waiting for data" />;
 
   return (
-    <Flex
-      direction="column"
-      gap="6"
-      overflowY="scroll"
-      sx={{
-        "::-webkit-scrollbar": {
-          display: "none",
-        },
-      }}
-    >
+    <Flex direction="column" gap="6">
       <AnimatePresence>
         {events.map((e) => (
           <Message event={e} key={e.id} />

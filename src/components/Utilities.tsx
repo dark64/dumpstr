@@ -2,19 +2,19 @@ import { Box, Flex, Image, Input, Text } from "@chakra-ui/react";
 
 const mockPeople = [
   {
-    pubkey: "2bd7...a5d3",
-    name: "pleeeb",
+    name: "user1",
+    pubkey: "npub1q8a...4zpv",
     avatarUrl: "assets/avatar.jpg",
   },
   {
-    pubkey: "1b3d...25d3",
-    name: "skuller",
+    name: "user2",
+    pubkey: "npub1h9h...q0zy",
     avatarUrl: "assets/avatar.jpg",
   },
   {
-    name: "spideygrill",
-    pubkey: "45f6...a3cd",
-    avatarUrl: "assets/avatar2.jpg",
+    name: "user3",
+    pubkey: "npub1nu8...gj4g",
+    avatarUrl: "assets/avatar.jpg",
   },
 ];
 

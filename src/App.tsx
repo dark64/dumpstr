@@ -3,6 +3,7 @@ import { MdOutlineSettings } from "react-icons/md";
 import "./App.css";
 import Feed from "./components/feed/Feed";
 import Logo from "./components/Logo";
+import SettingsModal from "./components/modals/SettingsModal";
 import Navigation from "./components/Navigation";
 import Utilities from "./components/Utilities";
 
@@ -17,15 +18,17 @@ function App() {
           mb="2"
         >
           <Logo />
-          <Flex alignItems="center" gap="2">
-            <Flex direction="column" alignItems="end" lineHeight="1" gap="1">
-              <Text fontWeight="bold">Test</Text>
-              <Text opacity="50%" fontSize="sm">
-                npub123...
-              </Text>
+          <SettingsModal title="Settings">
+            <Flex alignItems="center" gap="3" cursor="pointer">
+              <Flex direction="column" alignItems="end" lineHeight="1" gap="1">
+                <Text fontWeight="bold">anonymous</Text>
+                <Text opacity="50%" fontSize="sm">
+                  c5c8...2d4d
+                </Text>
+              </Flex>
+              <MdOutlineSettings size="32px" />
             </Flex>
-            <MdOutlineSettings size="32px" cursor="pointer" />
-          </Flex>
+          </SettingsModal>
         </Flex>
         <Flex gap="32px" h="full" w="full" minH="0">
           <Navigation />

@@ -1,7 +1,7 @@
 import { Box, Flex, Image, Link, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import moment from "moment";
-import { Event } from "nostr-tools";
+import { Event, nip19 } from "nostr-tools";
 import { memo } from "react";
 import Linkify from "react-linkify";
 
@@ -12,8 +12,10 @@ export type MessageProps = {
 export const Message = memo(
   ({ event }: MessageProps) => {
     const MotionFlex = motion(Flex);
+    const npub = nip19.npubEncode(event.pubkey);
     return (
       <MotionFlex
+        id={`#${event.id}`}
         w="full"
         gap="4"
         minW="0"
@@ -33,9 +35,7 @@ export const Message = memo(
             <Box lineHeight="1.25" mb="2" cursor="pointer">
               <Text fontWeight="medium">anonymous</Text>
               <Text opacity="0.5" fontSize="xs">
-                {event.pubkey.substring(0, 4) +
-                  "..." +
-                  event.pubkey.substring(event.pubkey.length - 4)}
+                {npub.substring(0, 8) + "..." + npub.substring(npub.length - 4)}
               </Text>
             </Box>
             <Text fontSize="xs" opacity="0.5">

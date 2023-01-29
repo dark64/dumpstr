@@ -1,22 +1,39 @@
 import { Flex, Text } from "@chakra-ui/react";
 import {
-    MdMessage,
-    MdOutlineNotificationsNone,
-    MdRssFeed
+  MdMessage,
+  MdOutlineNotificationsNone,
+  MdRssFeed,
 } from "react-icons/md"; // MdOutlineNotificationsActive
 
 function Navigation() {
   return (
-    <Flex h="full" direction="column" alignItems="end" w="160px" gap="2" flexShrink="0">
+    <Flex
+      h="full"
+      direction="column"
+      alignItems="end"
+      w="160px"
+      gap="2"
+      flexShrink="0"
+    >
       <Flex alignItems="center" gap="2" cursor="pointer">
         <Text fontWeight="bold">Feed</Text>
         <MdRssFeed size="20px" />
       </Flex>
-      <Flex alignItems="center" gap="2" cursor="pointer">
+      <Flex
+        alignItems="center"
+        gap="2"
+        cursor="pointer"
+        onClick={() => alert("not implemented")}
+      >
         <Text>Notifications</Text>
         <MdOutlineNotificationsNone size="20px" />
       </Flex>
-      <Flex alignItems="center" gap="2" cursor="pointer">
+      <Flex
+        alignItems="center"
+        gap="2"
+        cursor="pointer"
+        onClick={() => alert("not implemented")}
+      >
         <Text>Messages</Text>
         <MdMessage size="20px" />
       </Flex>
