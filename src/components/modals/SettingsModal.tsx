@@ -23,6 +23,8 @@ import {
 } from "@chakra-ui/react";
 import { PropsWithChildren, useState } from "react";
 import { MdRemoveRedEye, MdVpnKey } from "react-icons/md";
+import { createKeypair } from "../../utils/keys";
+import { useKeypair } from "../../utils/store";
 
 export type SettingsModalProps = {
   title: string;
@@ -39,6 +41,7 @@ type FormData = {
 export const SettingsModal = (props: SettingsModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showPrivateKey, setShowPrivateKey] = useState(false);
+  const keypairStore = useKeypair();
 
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -50,7 +53,8 @@ export const SettingsModal = (props: SettingsModalProps) => {
       nip05: target.nip05.value,
       privateKey: target.privateKey.value,
     };
-    alert(JSON.stringify(obj, null, 2));
+
+    keypairStore.save(createKeypair(obj.privateKey));
     onClose();
   };
 
@@ -138,7 +142,7 @@ export const SettingsModal = (props: SettingsModalProps) => {
                           type={showPrivateKey ? "text" : "password"}
                           fontSize="xs"
                           placeholder="Private key"
-                          defaultValue="94ed1e8749fd46abbf44758c18feb8c15a45bf0e91bb0252268deacd90bf2894"
+                          defaultValue={keypairStore.keypair.sk}
                           _placeholder={{ color: "accent", opacity: "0.5" }}
                           focusBorderColor="accent"
                           required={true}
@@ -157,7 +161,7 @@ export const SettingsModal = (props: SettingsModalProps) => {
                         fontSize="xs"
                         readOnly={true}
                         placeholder="Public key"
-                        defaultValue="c5c8ebd5a7a061466c8b5bebbea7053219de3018abb1aca0ba208cc13c502d4d"
+                        defaultValue={keypairStore.keypair.pk}
                         _placeholder={{ color: "accent", opacity: "0.5" }}
                         focusBorderColor="accent"
                       />

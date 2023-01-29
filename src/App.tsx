@@ -6,8 +6,11 @@ import Logo from "./components/Logo";
 import SettingsModal from "./components/modals/SettingsModal";
 import Navigation from "./components/Navigation";
 import Utilities from "./components/Utilities";
+import { formatPublicKey } from "./utils/keys";
+import { useKeypair } from "./utils/store";
 
 function App() {
+  const pk = useKeypair((state) => state.keypair.pk);
   return (
     <Container maxW="container.lg" as="main" h="full" py="4">
       <VStack h="full">
@@ -23,7 +26,7 @@ function App() {
               <Flex direction="column" alignItems="end" lineHeight="1" gap="1">
                 <Text fontWeight="bold">anonymous</Text>
                 <Text opacity="50%" fontSize="sm">
-                  c5c8...2d4d
+                  {formatPublicKey(pk).npubDisplay}
                 </Text>
               </Flex>
               <MdOutlineSettings size="32px" />

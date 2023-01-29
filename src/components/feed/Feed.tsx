@@ -1,10 +1,35 @@
-import { Box, Flex, Heading, Text, Textarea } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Text, Textarea } from "@chakra-ui/react";
+import { dateToUnix, useNostr } from "nostr-react";
+import { signEvent, getEventHash, Event } from "nostr-tools";
 import { useState } from "react";
 import { MdSend } from "react-icons/md";
+import { useKeypair } from "../../utils/store";
 import MessageList from "./MessageList";
 
 function Feed() {
   const [currentFilter, setCurrentFilter] = useState("global");
+  const keypair = useKeypair((state) => state.keypair);
+  const nostr = useNostr();
+
+  const onSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    const target = e.target as typeof e.target & { content: { value: string } };
+    const content = target.content.value;
+    target.content.value = "";
+
+    let event: Event = {
+      kind: 1,
+      pubkey: keypair.pk,
+      content,
+      tags: [],
+      created_at: dateToUnix(new Date()),
+    };
+
+    event.id = getEventHash(event);
+    event.sig = signEvent(event, keypair.sk);
+    nostr.publish(event);
+  };
+
   return (
     <Flex direction="column" h="full" gap="4" grow="1" minW="0">
       <Flex alignItems="center" justifyContent="space-between">
@@ -43,6 +68,8 @@ function Feed() {
         }}
       >
         <Flex
+          as="form"
+          onSubmit={onSubmit}
           direction="column"
           borderRadius="md"
           border="1px"
@@ -51,6 +78,7 @@ function Feed() {
           transitionDuration="200ms"
         >
           <Textarea
+            name="content"
             p="2"
             w="100%"
             placeholder="What's on your mind?"
@@ -69,9 +97,15 @@ function Feed() {
             >
               help
             </Text>
-            <Box p="1" cursor="pointer">
+            <Button
+              variant="ghost"
+              borderRadius="full"
+              type="submit"
+              p="2"
+              cursor="pointer"
+            >
               <MdSend color="accent" size="24px" />
-            </Box>
+            </Button>
           </Flex>
         </Flex>
         <MessageList filter={currentFilter} />
