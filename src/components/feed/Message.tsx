@@ -53,6 +53,32 @@ export const Message = memo(
               {event.content}
             </Linkify>
           </Text>
+          <Flex gap="4" fontSize="xs">
+            <Text
+              cursor="pointer"
+              opacity="0.5"
+              _hover={{ opacity: "1" }}
+              transitionDuration="200ms"
+            >
+              reply
+            </Text>
+            <Text
+              cursor="pointer"
+              opacity="0.5"
+              _hover={{ opacity: "1" }}
+              transitionDuration="200ms"
+            >
+              repost
+            </Text>
+            <Text
+              cursor="pointer"
+              opacity="0.5"
+              _hover={{ opacity: "1" }}
+              transitionDuration="200ms"
+            >
+              embed
+            </Text>
+          </Flex>
         </Flex>
       </MotionFlex>
     );

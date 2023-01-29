@@ -19,7 +19,7 @@ function App() {
           <Logo />
           <Flex alignItems="center" gap="2">
             <Flex direction="column" alignItems="end" lineHeight="1" gap="1">
-              <Text fontWeight="bold">John</Text>
+              <Text fontWeight="bold">Test</Text>
               <Text opacity="50%" fontSize="sm">
                 npub123...
               </Text>

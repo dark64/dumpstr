@@ -25,9 +25,7 @@ function Utilities() {
         fontSize="sm"
         placeholder="Search people"
         _placeholder={{ color: "accent", opacity: "0.5" }}
-        bg="darkish"
-        border="none"
-        focusBorderColor="none"
+        focusBorderColor="accent"
       />
       <Text fontWeight="bold">Follows</Text>
       <Flex direction="column" gap="4">
