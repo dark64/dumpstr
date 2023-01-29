@@ -1,5 +1,6 @@
-var ghpages = require("gh-pages");
-var fs = require("fs");
+import { publish } from "gh-pages";
+import { open } from "fs/promises";
 
-fs.openSync("dist/.nojekyll", "w");
-ghpages.publish("dist", { dotfiles: true });
+open("dist/.nojekyll", "w").then(() => {
+  publish("dist", { dotfiles: true });
+});
