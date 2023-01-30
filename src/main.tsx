@@ -5,7 +5,12 @@ import { NostrProvider } from "nostr-react";
 import App from "./App";
 import theme from "./theme";
 
-const relayUrls = ["wss://nostr-pub.wellorder.net", "wss://relay.damus.io"];
+const relayUrls = [
+  "wss://nostr-pub.wellorder.net", 
+  "wss://relay.snort.social",
+  "wss://relay.nostr.ch",
+  "wss://nos.lol"
+];
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
