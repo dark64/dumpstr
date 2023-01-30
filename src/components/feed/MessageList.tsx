@@ -11,7 +11,6 @@ export type FeedMessagesProps = {
 
 export const MessageList = (props: FeedMessagesProps) => {
   const now = useRef(new Date()); // make sure current time isn't re-rendered
-
   const { events, isLoading } = useNostrEvents({
     filter: {
       since: dateToUnix(now.current) - 300, // all new events from now

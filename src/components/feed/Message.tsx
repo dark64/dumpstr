@@ -4,7 +4,7 @@ import moment from "moment";
 import { Event } from "nostr-tools";
 import { memo } from "react";
 import Linkify from "react-linkify";
-import { formatPublicKey } from "../../utils/keys";
+import { formatPublicKey } from "../../stores/keypair";
 
 export type MessageProps = {
   event: Event;
@@ -35,7 +35,7 @@ export const Message = memo(
             <Box lineHeight="1.25" mb="2" cursor="pointer">
               <Text fontWeight="medium">anonymous</Text>
               <Text opacity="0.5" fontSize="xs">
-                {formatPublicKey(event.pubkey).npubDisplay}
+                {formatPublicKey(event.pubkey).display}
               </Text>
             </Box>
             <Text fontSize="xs" opacity="0.5">

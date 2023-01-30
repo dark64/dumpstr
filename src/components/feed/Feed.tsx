@@ -1,9 +1,9 @@
-import { Box, Button, Flex, Heading, Text, Textarea } from "@chakra-ui/react";
+import { Button, Flex, Heading, Text, Textarea } from "@chakra-ui/react";
 import { dateToUnix, useNostr } from "nostr-react";
-import { signEvent, getEventHash, Event } from "nostr-tools";
+import { Event, getEventHash, Kind, signEvent } from "nostr-tools";
 import { useState } from "react";
 import { MdSend } from "react-icons/md";
-import { useKeypair } from "../../utils/store";
+import { useKeypair } from "../../stores/keypair";
 import MessageList from "./MessageList";
 
 function Feed() {
@@ -18,7 +18,7 @@ function Feed() {
     target.content.value = "";
 
     let event: Event = {
-      kind: 1,
+      kind: Kind.Text,
       pubkey: keypair.pk,
       content,
       tags: [],

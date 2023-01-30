@@ -21,10 +21,12 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import { dateToUnix, useNostr } from "nostr-react";
+import { Event, getEventHash, Kind, signEvent } from "nostr-tools";
 import { PropsWithChildren, useState } from "react";
 import { MdRemoveRedEye, MdVpnKey } from "react-icons/md";
-import { createKeypair } from "../../utils/keys";
-import { useKeypair } from "../../utils/store";
+import { createKeypair, useKeypair } from "../../stores/keypair";
+import { useMetadataStore } from "../../stores/metadata";
 
 export type SettingsModalProps = {
   title: string;
@@ -33,7 +35,7 @@ export type SettingsModalProps = {
 type FormData = {
   name: { value: string };
   about: { value: string };
-  pictureUrl: { value: string };
+  picture: { value: string };
   nip05: { value: string };
   privateKey: { value: string };
 };
@@ -42,19 +44,41 @@ export const SettingsModal = (props: SettingsModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showPrivateKey, setShowPrivateKey] = useState(false);
   const keypairStore = useKeypair();
+  const metadataStore = useMetadataStore();
+  const nostr = useNostr();
 
-  const onSubmit = (e: React.SyntheticEvent) => {
+  const currentMetadata = metadataStore.metadata[keypairStore.keypair.pk];
+
+  const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const target = e.target as typeof e.target & FormData;
-    const obj = {
+
+    const keypair = createKeypair(target.privateKey.value);
+    keypairStore.save(keypair);
+
+    let metadata = {
       name: target.name.value,
       about: target.about.value,
-      pictureUrl: target.pictureUrl.value,
+      picture: target.picture.value,
       nip05: target.nip05.value,
-      privateKey: target.privateKey.value,
     };
 
-    keypairStore.save(createKeypair(obj.privateKey));
+    await metadataStore.save(keypair.pk, metadata);
+
+    let event: Event = {
+      kind: Kind.Metadata,
+      pubkey: keypair.pk,
+      content: JSON.stringify(metadata),
+      tags: [],
+      created_at: dateToUnix(new Date()),
+    };
+
+    event.id = getEventHash(event);
+    event.sig = signEvent(event, keypair.sk);
+
+    console.log("sending metadata event", event);
+    nostr.publish(event);
+
     onClose();
   };
 
@@ -80,6 +104,7 @@ export const SettingsModal = (props: SettingsModalProps) => {
                     <FormControl mb="2">
                       <Input
                         name="name"
+                        defaultValue={currentMetadata?.name}
                         fontSize="xs"
                         placeholder="Name"
                         _placeholder={{ color: "accent", opacity: "0.5" }}
@@ -89,6 +114,7 @@ export const SettingsModal = (props: SettingsModalProps) => {
                     <FormControl mb="2">
                       <Input
                         name="about"
+                        defaultValue={currentMetadata?.about}
                         fontSize="xs"
                         placeholder="About"
                         _placeholder={{ color: "accent", opacity: "0.5" }}
@@ -97,7 +123,8 @@ export const SettingsModal = (props: SettingsModalProps) => {
                     </FormControl>
                     <FormControl mb="2">
                       <Input
-                        name="pictureUrl"
+                        name="picture"
+                        defaultValue={currentMetadata?.picture}
                         fontSize="xs"
                         placeholder="Picture URL"
                         _placeholder={{ color: "accent", opacity: "0.5" }}
@@ -107,6 +134,7 @@ export const SettingsModal = (props: SettingsModalProps) => {
                     <FormControl mb="2">
                       <Input
                         name="nip05"
+                        defaultValue={currentMetadata?.nip05}
                         fontSize="xs"
                         placeholder="NIP-05 Identifier"
                         _placeholder={{ color: "accent", opacity: "0.5" }}

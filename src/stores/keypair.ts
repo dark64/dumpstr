@@ -1,4 +1,5 @@
 import { generatePrivateKey, getPublicKey, nip19 } from "nostr-tools";
+import { create } from "zustand";
 
 const LS_KEY = "keys";
 
@@ -16,7 +17,7 @@ export const createKeypair = (privateKey?: string): Keypair => {
   };
 };
 
-export const getKeypair = (privateKey?: string): Keypair => {
+export const getKeypair = (): Keypair => {
   const keys = localStorage.getItem(LS_KEY);
   if (keys) return JSON.parse(keys);
 
@@ -31,9 +32,23 @@ export const saveKeypair = (keypair: Keypair) => {
 
 export const formatPublicKey = (
   pk: string
-): { npub: string; npubDisplay: string } => {
+): { npub: string; display: string } => {
   const npub = nip19.npubEncode(pk);
-  const npubDisplay =
+  const display =
     npub.substring(0, 8) + "..." + npub.substring(npub.length - 4);
-  return { npub, npubDisplay };
+  return { npub, display };
 };
+
+export type KeypairState = {
+  keypair: Keypair;
+  save: (keypair: Keypair) => void;
+};
+
+export const useKeypair = create<KeypairState>((set) => ({
+  keypair: getKeypair(),
+  save: (keypair: Keypair) =>
+    set(() => {
+      saveKeypair(keypair);
+      return { keypair };
+    }),
+}));
