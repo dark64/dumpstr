@@ -5,6 +5,7 @@ import { Event } from "nostr-tools";
 import { memo } from "react";
 import Linkify from "react-linkify";
 import { formatPublicKey } from "../../stores/keypair";
+import { useMetadataStore } from "../../stores/metadata";
 
 export type MessageProps = {
   event: Event;
@@ -13,6 +14,7 @@ export type MessageProps = {
 export const Message = memo(
   ({ event }: MessageProps) => {
     const MotionFlex = motion(Flex);
+    const metadata = useMetadataStore((state) => state.metadata[event.pubkey]);
     return (
       <MotionFlex
         id={`#${event.id}`}
@@ -27,13 +29,15 @@ export const Message = memo(
             h="32px"
             w="32px"
             borderRadius="full"
-            src="assets/avatar.jpg"
+            src={metadata?.picture || "assets/avatar.jpg"}
           />
         </Flex>
         <Flex grow="1" direction="column" minW="0">
           <Flex justifyContent="space-between">
             <Box lineHeight="1.25" mb="2" cursor="pointer">
-              <Text fontWeight="medium">anonymous</Text>
+              <Text fontWeight="medium">
+                {metadata?.name || "anonymous"}
+              </Text>
               <Text opacity="0.5" fontSize="xs">
                 {formatPublicKey(event.pubkey).display}
               </Text>

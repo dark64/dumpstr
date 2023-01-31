@@ -1,7 +1,9 @@
 import { Flex } from "@chakra-ui/react";
 import { AnimatePresence } from "framer-motion";
 import { dateToUnix, useNostrEvents } from "nostr-react";
+import { Kind } from "nostr-tools";
 import { useRef } from "react";
+import { useMetadataStore } from "../../stores/metadata";
 import Loader from "../Loader";
 import { Message } from "./Message";
 
@@ -11,11 +13,17 @@ export type FeedMessagesProps = {
 
 export const MessageList = (props: FeedMessagesProps) => {
   const now = useRef(new Date()); // make sure current time isn't re-rendered
-  const { events, isLoading } = useNostrEvents({
+  const saveMetadata = useMetadataStore((state) => state.save);
+
+  const { events, isLoading, onEvent } = useNostrEvents({
     filter: {
       since: dateToUnix(now.current) - 300, // all new events from now
-      kinds: [1],
+      kinds: [Kind.Metadata, Kind.Text],
     },
+  });
+
+  onEvent((e) => {
+    if (e.kind === Kind.Metadata) saveMetadata(e.pubkey, JSON.parse(e.content));
   });
 
   if (isLoading || events.length == 0)
@@ -24,9 +32,11 @@ export const MessageList = (props: FeedMessagesProps) => {
   return (
     <Flex direction="column" gap="6">
       <AnimatePresence>
-        {events.map((e) => (
-          <Message event={e} key={e.id} />
-        ))}
+        {events
+          .filter((e) => e.kind === Kind.Text)
+          .map((e) => (
+            <Message event={e} key={e.id} />
+          ))}
       </AnimatePresence>
     </Flex>
   );
