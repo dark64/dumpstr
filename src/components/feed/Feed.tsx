@@ -74,7 +74,7 @@ function Feed() {
           borderRadius="md"
           border="1px"
           borderColor="whiteAlpha.300"
-          _hover={{ borderColor: "accent", outline: "2px solid accent" }}
+          _hover={{ borderColor: "accent" }}
           transitionDuration="200ms"
         >
           <Textarea

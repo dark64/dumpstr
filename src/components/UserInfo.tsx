@@ -2,7 +2,7 @@ import { Flex, Text } from "@chakra-ui/react";
 import { MdOutlineSettings } from "react-icons/md";
 import { formatPublicKey, useKeypair } from "../stores/keypair";
 import { useMetadataStore } from "../stores/metadata";
-import SettingsModal from "./modals/SettingsModal";
+import SettingsModal from "./modals/settings/SettingsModal";
 
 export const UserInfo = () => {
   const pk = useKeypair((state) => state.keypair.pk);
