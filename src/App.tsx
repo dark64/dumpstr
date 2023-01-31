@@ -21,8 +21,6 @@ function App() {
 
   if (!isLoaded) return <></>;
 
-  console.log(relayUrls);
-
   return (
     <NostrProvider relayUrls={relayUrls} debug={true}>
       <Container maxW="container.lg" as="main" h="full" py="4">
