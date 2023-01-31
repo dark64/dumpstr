@@ -14,8 +14,8 @@ const theme = {
   },
   colors: {
     accent: "#FFF5EE",
-    dark: "#191919",
-    darkish: "#393939",
+    dark: "#101114",
+    darkish: "#202228",
   },
 };
 

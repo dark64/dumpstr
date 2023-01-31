@@ -73,7 +73,7 @@ function Feed() {
           direction="column"
           borderRadius="md"
           border="1px"
-          borderColor="darkish"
+          borderColor="whiteAlpha.300"
           _hover={{ borderColor: "accent", outline: "2px solid accent" }}
           transitionDuration="200ms"
         >
