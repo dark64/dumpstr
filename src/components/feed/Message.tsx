@@ -35,9 +35,7 @@ export const Message = memo(
         <Flex grow="1" direction="column" minW="0">
           <Flex justifyContent="space-between">
             <Box lineHeight="1.25" mb="2" cursor="pointer">
-              <Text fontWeight="medium">
-                {metadata?.name || "anonymous"}
-              </Text>
+              <Text fontWeight="medium">{metadata?.name || "anonymous"}</Text>
               <Text opacity="0.5" fontSize="xs">
                 {formatPublicKey(event.pubkey).display}
               </Text>
@@ -63,6 +61,7 @@ export const Message = memo(
               opacity="0.5"
               _hover={{ opacity: "1" }}
               transitionDuration="200ms"
+              onClick={() => alert("not implemented")}
             >
               reply
             </Text>
@@ -71,6 +70,7 @@ export const Message = memo(
               opacity="0.5"
               _hover={{ opacity: "1" }}
               transitionDuration="200ms"
+              onClick={() => alert("not implemented")}
             >
               repost
             </Text>
@@ -79,6 +79,7 @@ export const Message = memo(
               opacity="0.5"
               _hover={{ opacity: "1" }}
               transitionDuration="200ms"
+              onClick={() => alert("not implemented")}
             >
               embed
             </Text>
