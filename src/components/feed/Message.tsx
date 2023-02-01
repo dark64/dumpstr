@@ -6,6 +6,7 @@ import { memo } from "react";
 import Linkify from "react-linkify";
 import { formatPublicKey } from "../../stores/keypair";
 import { useMetadataStore } from "../../stores/metadata";
+import { shallow } from "zustand/shallow";
 
 export type MessageProps = {
   event: Event;
@@ -14,7 +15,7 @@ export type MessageProps = {
 export const Message = memo(
   ({ event }: MessageProps) => {
     const MotionFlex = motion(Flex);
-    const metadata = useMetadataStore((state) => state.metadata[event.pubkey]);
+    const metadata = useMetadataStore((state) => state.metadata[event.pubkey], shallow);
     return (
       <MotionFlex
         id={`#${event.id}`}

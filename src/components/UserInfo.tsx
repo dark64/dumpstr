@@ -6,13 +6,12 @@ import SettingsModal from "./modals/settings/SettingsModal";
 
 export const UserInfo = () => {
   const pk = useKeypair((state) => state.keypair.pk);
-  const metadata = useMetadataStore((state) => state.metadata);
-
+  const metadata = useMetadataStore((state) => state.metadata[pk]);
   return (
     <SettingsModal title="Settings">
       <Flex alignItems="center" gap="3" cursor="pointer">
         <Flex direction="column" alignItems="end" lineHeight="1" gap="1">
-          <Text fontWeight="bold">{metadata[pk]?.name ?? "anonymous"}</Text>
+          <Text fontWeight="bold">{metadata?.name ?? "anonymous"}</Text>
           <Text opacity="50%" fontSize="sm">
             {formatPublicKey(pk).display}
           </Text>

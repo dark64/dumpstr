@@ -26,7 +26,6 @@ export type SettingsModalProps = {
 
 export const SettingsModal = (props: SettingsModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <Box onClick={onOpen}>
       {props.children}

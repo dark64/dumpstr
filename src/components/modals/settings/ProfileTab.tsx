@@ -3,6 +3,7 @@ import { dateToUnix, useNostr } from "nostr-react";
 import { Event, getEventHash, Kind, signEvent } from "nostr-tools";
 import { useKeypair } from "../../../stores/keypair";
 import { useMetadataStore } from "../../../stores/metadata";
+import { shallow } from "zustand/shallow";
 
 type FormData = {
   name: { value: string };
@@ -17,10 +18,11 @@ export type ProfileTabProps = {
 
 export const ProfileTab = (props: ProfileTabProps) => {
   const keypair = useKeypair((state) => state.keypair);
-  const metadataStore = useMetadataStore();
+  const [metadata, saveMetadata] = useMetadataStore(
+    (state) => [state.metadata[keypair.pk], state.save],
+    shallow
+  );
   const nostr = useNostr();
-
-  const currentMetadata = metadataStore.metadata[keypair.pk];
 
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -33,7 +35,7 @@ export const ProfileTab = (props: ProfileTabProps) => {
       nip05: target.nip05.value,
     };
 
-    await metadataStore.save(keypair.pk, metadata);
+    await saveMetadata(keypair.pk, metadata);
 
     let event: Event = {
       kind: Kind.Metadata,
@@ -57,7 +59,7 @@ export const ProfileTab = (props: ProfileTabProps) => {
       <FormControl>
         <Input
           name="name"
-          defaultValue={currentMetadata?.name}
+          defaultValue={metadata?.name}
           fontSize="xs"
           placeholder="Name"
           _placeholder={{ color: "accent", opacity: "0.5" }}
@@ -67,7 +69,7 @@ export const ProfileTab = (props: ProfileTabProps) => {
       <FormControl>
         <Input
           name="about"
-          defaultValue={currentMetadata?.about}
+          defaultValue={metadata?.about}
           fontSize="xs"
           placeholder="About"
           _placeholder={{ color: "accent", opacity: "0.5" }}
@@ -77,7 +79,7 @@ export const ProfileTab = (props: ProfileTabProps) => {
       <FormControl>
         <Input
           name="picture"
-          defaultValue={currentMetadata?.picture}
+          defaultValue={metadata?.picture}
           fontSize="xs"
           placeholder="Picture URL"
           _placeholder={{ color: "accent", opacity: "0.5" }}
@@ -87,7 +89,7 @@ export const ProfileTab = (props: ProfileTabProps) => {
       <FormControl>
         <Input
           name="nip05"
-          defaultValue={currentMetadata?.nip05}
+          defaultValue={metadata?.nip05}
           fontSize="xs"
           placeholder="NIP-05 Identifier"
           _placeholder={{ color: "accent", opacity: "0.5" }}

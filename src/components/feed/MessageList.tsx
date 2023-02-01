@@ -19,6 +19,7 @@ export const MessageList = (props: FeedMessagesProps) => {
     filter: {
       since: dateToUnix(now.current) - 300, // all new events from now
       kinds: [Kind.Metadata, Kind.Text],
+      limit: 40
     },
   });
 

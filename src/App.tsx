@@ -22,7 +22,7 @@ function App() {
   if (!isLoaded) return <></>;
 
   return (
-    <NostrProvider relayUrls={relayUrls} debug={true}>
+    <NostrProvider relayUrls={relayUrls} debug={false}>
       <Container maxW="container.lg" as="main" h="full" py="4">
         <VStack h="full">
           <Flex
